@@ -1,3 +1,4 @@
+import it.fyb.rs.impl.DomainManager;
 import it.fyb.rs.impl.MediaManagement;
 import it.fyb.rs.impl.UserManagement;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -15,6 +16,7 @@ public class FYBApplication extends Application {
         h.add(UserManagement.class);
         h.add(MediaManagement.class);
         h.add(MultiPartFeature.class);
+        h.add(DomainManager.class);
         return h;
     }
 }
