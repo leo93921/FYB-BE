@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.mobicents.external.tritonus:tritonus_share:unknown">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mobicents/external/tritonus/tritonus_share/unknown/tritonus_share-unknown.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mobicents/external/tritonus/tritonus_share/unknown/tritonus_share-unknown-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mobicents/external/tritonus/tritonus_share/unknown/tritonus_share-unknown-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
