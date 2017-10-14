@@ -1,14 +1,19 @@
 package it.fyb.rs.impl;
 
+import it.fyb.Utlis.Types;
 import it.fyb.Utlis.Utils;
+import it.fyb.dao.MediaManagementDAO;
 import it.fyb.dao.UserManagementDAO;
+import it.fyb.model.Media;
 import it.fyb.model.RegistrationUser;
 import it.fyb.model.UserGenericData;
+import it.fyb.model.UserProfile;
 import it.fyb.rs.interfaces.IUserManagement;
 
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import java.math.BigInteger;
+import java.util.List;
 
 public class UserManagement implements IUserManagement {
 
@@ -43,5 +48,23 @@ public class UserManagement implements IUserManagement {
     public boolean saveUserGenericData(BigInteger id, UserGenericData toSave) throws Exception {
         boolean res = UserManagementDAO.saveUserGenericData(id, toSave);
         return res;
+    }
+
+    @Override
+    public Response getUserProfile(String userId) throws Exception {
+        UserGenericData user = UserManagementDAO.getUserGenericData(BigInteger.valueOf(Long.valueOf(userId)));
+        UserProfile profile = new UserProfile();
+        profile.setDescription(user.getDescription());
+        profile.setEmail(user.getEmail());
+        profile.setId(userId);
+        profile.setName(user.getName());
+        profile.setPhone(user.getPhone());
+        profile.setPriceBand(user.getPrice());
+        profile.setYoutube(user.getYoutube());
+        List<Media> images = MediaManagementDAO.getMedia(Integer.valueOf(userId), Types.IMAGE_FILES);
+        profile.setImages(images);
+        List<Media> music = MediaManagementDAO.getMedia(Integer.valueOf(userId), Types.AUDIO_FILES);
+        profile.setMusic(music);
+        return Response.status(Response.Status.OK).entity(profile).build();
     }
 }

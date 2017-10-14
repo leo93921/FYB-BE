@@ -1,5 +1,6 @@
 package it.fyb.rs.interfaces;
 
+import it.fyb.model.Media;
 import it.fyb.model.RegistrationUser;
 import it.fyb.model.UserGenericData;
 
@@ -22,4 +23,8 @@ public interface IUserManagement {
 
     @POST @Path("/info/{id}") @Consumes(MediaType.APPLICATION_JSON)
     boolean saveUserGenericData(@PathParam("id") BigInteger id, UserGenericData toSave) throws Exception;
+
+    @GET @Path("/{userId}") @Produces(MediaType.APPLICATION_JSON)
+    Response getUserProfile(@PathParam("userId") String userId) throws Exception;
+
 }
