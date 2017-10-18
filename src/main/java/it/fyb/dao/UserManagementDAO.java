@@ -40,11 +40,7 @@ public class UserManagementDAO {
             ps.setString(1, username);
             ps.setString(2, password);
             rs = ps.executeQuery();
-            if (rs.next()) {
-                return true;
-            } else {
-                return false;
-            }
+            return rs.next();
         } finally {
             Utils.closeAll(conn, rs);
         }
