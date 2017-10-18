@@ -1,3 +1,4 @@
+import it.fyb.rs.impl.CommunicationManager;
 import it.fyb.rs.impl.DomainManager;
 import it.fyb.rs.impl.MediaManagement;
 import it.fyb.rs.impl.UserManagement;
@@ -17,6 +18,7 @@ public class FYBApplication extends Application {
         h.add(MediaManagement.class);
         h.add(MultiPartFeature.class);
         h.add(DomainManager.class);
+        h.add(CommunicationManager.class);
         return h;
     }
 }
