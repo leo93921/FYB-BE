@@ -24,15 +24,26 @@ public class UserManagement implements IUserManagement {
     }
 
     @Override
-    public Response loginAction(String username, String password) throws Exception {
+    public Response loginAction(String email, String password) throws Exception {
         String pass = Utils.md5Encode(password);
-        boolean res = UserManagementDAO.checkLogin(username, pass);
+        RegistrationUser res = UserManagementDAO.checkLogin(email, pass);
 
-        if (res) {
+        if (res != null) {
+            String role;
+            if (res.getType() == Types.GROUP_TYPE) {
+                role = Types.GROUP_TYPE_TEXT;
+            } else {
+                role = Types.PLACE_TYPE_TEXT;
+            }
             // Add cookie
-            NewCookie uCookie = new NewCookie("u", username, "/", "", "", 100, false);
-            NewCookie rCookie = new NewCookie("role", "USER", "/", "", "", 100, false);
-            return Response.status(Response.Status.OK).cookie(uCookie).cookie(rCookie).entity(true).build();
+            NewCookie userCookie = new NewCookie("e", email, "/", "", "", 100, false);
+            NewCookie typeCookie = new NewCookie("t", role, "/", "", "", 100, false);
+            NewCookie idCookie = new NewCookie("i", String.valueOf(res.getId()), "/", "", "", 100, false);
+            return Response.status(Response.Status.OK)
+                    .cookie(userCookie)
+                    .cookie(typeCookie)
+                    .cookie(idCookie)
+                    .entity(true).build();
         } else {
             return Response.status(Response.Status.OK).entity(false).build();
         }

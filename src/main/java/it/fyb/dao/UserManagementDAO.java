@@ -31,7 +31,7 @@ public class UserManagementDAO {
         return res;
     }
 
-    public static boolean checkLogin(String username, String password) throws Exception {
+    public static RegistrationUser checkLogin(String username, String password) throws Exception {
         Connection conn = null;
         ResultSet rs = null;
         try {
@@ -40,7 +40,15 @@ public class UserManagementDAO {
             ps.setString(1, username);
             ps.setString(2, password);
             rs = ps.executeQuery();
-            return rs.next();
+            if (rs.next()) {
+                RegistrationUser user = new RegistrationUser();
+                user.setEmail(rs.getString("email"));
+                user.setType(rs.getInt("Tipo"));
+                user.setId(rs.getLong("id"));
+                return user;
+            } else {
+                return null;
+            }
         } finally {
             Utils.closeAll(conn, rs);
         }
