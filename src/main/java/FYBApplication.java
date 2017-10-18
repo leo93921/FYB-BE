@@ -1,7 +1,5 @@
-import it.fyb.rs.impl.CommunicationManager;
-import it.fyb.rs.impl.DomainManager;
-import it.fyb.rs.impl.MediaManagement;
-import it.fyb.rs.impl.UserManagement;
+import it.fyb.model.EventOffer;
+import it.fyb.rs.impl.*;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import javax.ws.rs.ApplicationPath;
@@ -19,6 +17,7 @@ public class FYBApplication extends Application {
         h.add(MultiPartFeature.class);
         h.add(DomainManager.class);
         h.add(CommunicationManager.class);
+        h.add(EventManager.class);
         return h;
     }
 }
