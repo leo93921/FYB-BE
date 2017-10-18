@@ -22,6 +22,10 @@
 hs_err_pid*
 
 # Artifacts and compiled folder
+/out/
 .out/
 .target/
 .idea/
+
+# File for Intellij IDEA
+FYB-BE.iml
