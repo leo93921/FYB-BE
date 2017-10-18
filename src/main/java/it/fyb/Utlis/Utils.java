@@ -15,6 +15,7 @@ import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 public class Utils {
@@ -108,5 +109,13 @@ public class Utils {
     public static void deleteMediaFile(Media media) throws Exception{
         File f = new File(media.getUrl());
         Files.deleteIfExists(f.toPath());
+    }
+
+    public static java.sql.Date toSqlDate(Date date) {
+        return new java.sql.Date(date.getTime());
+    }
+
+    public static Date toDate(long time) {
+        return new Date(time);
     }
 }
