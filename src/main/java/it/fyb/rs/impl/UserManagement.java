@@ -30,8 +30,8 @@ public class UserManagement implements IUserManagement {
 
         if (res) {
             // Add cookie
-            NewCookie uCookie = new NewCookie("u", username);
-            NewCookie rCookie = new NewCookie("role", "USER");
+            NewCookie uCookie = new NewCookie("u", username, "/", "", "", 100, false);
+            NewCookie rCookie = new NewCookie("role", "USER", "/", "", "", 100, false);
             return Response.status(Response.Status.OK).cookie(uCookie).cookie(rCookie).entity(true).build();
         } else {
             return Response.status(Response.Status.OK).entity(false).build();
