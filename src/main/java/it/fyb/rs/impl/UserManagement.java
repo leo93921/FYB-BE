@@ -36,9 +36,9 @@ public class UserManagement implements IUserManagement {
                 role = Types.PLACE_TYPE_TEXT;
             }
             // Add cookie
-            NewCookie userCookie = new NewCookie("e", email, "/", "", "", 100, false);
-            NewCookie typeCookie = new NewCookie("t", role, "/", "", "", 100, false);
-            NewCookie idCookie = new NewCookie("i", String.valueOf(res.getId()), "/", "", "", 100, false);
+            NewCookie userCookie = new NewCookie("e", email, "/", "", "", NewCookie.DEFAULT_MAX_AGE, false);
+            NewCookie typeCookie = new NewCookie("t", role, "/", "", "", NewCookie.DEFAULT_MAX_AGE, false);
+            NewCookie idCookie = new NewCookie("i", String.valueOf(res.getId()), "/", "", "", NewCookie.DEFAULT_MAX_AGE, false);
             return Response.status(Response.Status.OK)
                     .cookie(userCookie)
                     .cookie(typeCookie)
