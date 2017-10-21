@@ -45,6 +45,7 @@ public class UserManagementDAO {
                 user.setEmail(rs.getString("email"));
                 user.setType(rs.getInt("Tipo"));
                 user.setId(rs.getLong("id"));
+                user.setName(rs.getString("Nome"));
                 return user;
             } else {
                 return null;
