@@ -2,6 +2,7 @@ package it.fyb.dao;
 
 import it.fyb.Utlis.Utils;
 import it.fyb.model.Communication;
+import it.fyb.model.CommunicationForList;
 import it.fyb.sql.CommunicationSQL;
 
 import java.math.BigInteger;
@@ -49,6 +50,33 @@ public class CommunicationDAO {
                 comm.setText(rs.getString("testo"));
                 comm.setSendDate(rs.getDate("data_inviato").getTime());
                 comm.setRead(rs.getBoolean("letto"));
+                communications.add(comm);
+            }
+            ps.close();
+            return communications;
+        } finally {
+            Utils.closeAll(conn, rs);
+        }
+    }
+
+    public static List<CommunicationForList> getCommunicationsForUserId(String userId) throws Exception{
+        Connection conn = null;
+        ResultSet rs = null;
+        List<CommunicationForList> communications = new ArrayList<>();
+        try {
+            conn = Utils.getDataConnection();
+            PreparedStatement ps = conn.prepareStatement(CommunicationSQL.GET_COMM_FOR_USER);
+            ps.setInt(1, Integer.valueOf(userId));
+            ps.setInt(2, Integer.valueOf(userId));
+            ps.setInt(3, Integer.valueOf(userId));
+            rs = ps.executeQuery();
+            while(rs.next()) {
+                CommunicationForList comm = new CommunicationForList();
+                comm.setGroupId(rs.getString("gruppo"));
+                comm.setLastTime(rs.getTimestamp("last_contact").getTime());
+                comm.setName(rs.getString("send_user"));
+                comm.setUnread(rs.getBoolean("unread"));
+                comm.setText(rs.getString("testo"));
                 communications.add(comm);
             }
             ps.close();
