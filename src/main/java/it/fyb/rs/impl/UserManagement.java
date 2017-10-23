@@ -1,7 +1,10 @@
 package it.fyb.rs.impl;
 
+import it.fyb.Utlis.FYBConstants;
 import it.fyb.Utlis.Types;
 import it.fyb.Utlis.Utils;
+import it.fyb.auth.AuthManager;
+import it.fyb.auth.AuthToken;
 import it.fyb.dao.MediaManagementDAO;
 import it.fyb.dao.UserManagementDAO;
 import it.fyb.model.Media;
@@ -27,7 +30,6 @@ public class UserManagement implements IUserManagement {
     public Response loginAction(String email, String password) throws Exception {
         String pass = Utils.md5Encode(password);
         RegistrationUser res = UserManagementDAO.checkLogin(email, pass);
-
         if (res != null) {
             String role;
             if (res.getType() == Types.GROUP_TYPE) {
@@ -35,16 +37,22 @@ public class UserManagement implements IUserManagement {
             } else {
                 role = Types.PLACE_TYPE_TEXT;
             }
+
+            // Get token when connect
+            AuthToken token = AuthManager.getToken(res);
+
             // Add cookie
-            NewCookie userCookie = new NewCookie("e", email, "/", "", "", NewCookie.DEFAULT_MAX_AGE, false);
-            NewCookie typeCookie = new NewCookie("t", role, "/", "", "", NewCookie.DEFAULT_MAX_AGE, false);
-            NewCookie idCookie = new NewCookie("i", String.valueOf(res.getId()), "/", "", "", NewCookie.DEFAULT_MAX_AGE, false);
-            NewCookie nameCookie = new NewCookie("n", res.getName(), "/", "", "", NewCookie.DEFAULT_MAX_AGE, false);
+            NewCookie userCookie = new NewCookie(FYBConstants.USER_EMAIL, email, "/", "", "", NewCookie.DEFAULT_MAX_AGE, false);
+            NewCookie typeCookie = new NewCookie(FYBConstants.USER_TYPE, role, "/", "", "", NewCookie.DEFAULT_MAX_AGE, false);
+            NewCookie idCookie = new NewCookie(FYBConstants.USER_ID, String.valueOf(res.getId()), "/", "", "", NewCookie.DEFAULT_MAX_AGE, false);
+            NewCookie nameCookie = new NewCookie(FYBConstants.USER_NAME, res.getName(), "/", "", "", NewCookie.DEFAULT_MAX_AGE, false);
+            NewCookie passCookie = new NewCookie(FYBConstants.USER_TOKEN, token.getToken(), "/", "", "", NewCookie.DEFAULT_MAX_AGE, false);
             return Response.status(Response.Status.OK)
                     .cookie(userCookie)
                     .cookie(typeCookie)
                     .cookie(idCookie)
                     .cookie(nameCookie)
+                    .cookie(passCookie)
                     .entity(true).build();
         } else {
             return Response.status(Response.Status.OK).entity(false).build();
