@@ -15,8 +15,8 @@ public class AuthManager {
 
     public static boolean checkAuthentication(Integer userId, String token) {
         if (authenticated.containsKey(userId) &&
-                authenticated.get(userId).getExpiration().getTime() <= (new Date()).getTime() &&
-                authenticated.get(userId).getToken() == token){
+                authenticated.get(userId).getExpiration().getTime() >= (new Date()).getTime() &&
+                authenticated.get(userId).getToken().equals(token)){
             return true;
         } else {
             if (authenticated.containsKey(userId)) {
