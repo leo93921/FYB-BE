@@ -44,7 +44,7 @@ public class UserManagementDAO {
                 RegistrationUser user = new RegistrationUser();
                 user.setEmail(rs.getString("email"));
                 user.setType(rs.getInt("Tipo"));
-                user.setId(rs.getLong("id"));
+                user.setId(rs.getInt("id"));
                 user.setName(rs.getString("Nome"));
                 return user;
             } else {

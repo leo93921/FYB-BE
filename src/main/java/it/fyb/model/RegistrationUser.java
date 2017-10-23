@@ -2,7 +2,7 @@ package it.fyb.model;
 
 public class RegistrationUser {
 
-    private long id;
+    private Integer id;
     private String email;
     private String name;
     private String password;
@@ -15,11 +15,11 @@ public class RegistrationUser {
     private String lng;
     private String formattedAddress;
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
