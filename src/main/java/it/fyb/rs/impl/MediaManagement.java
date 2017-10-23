@@ -46,7 +46,6 @@ public class MediaManagement implements IMediaManagement {
 
     @Override
     public boolean deleteMedia(Integer mediaId) throws Exception {
-        // TODO remove file
         Media media = MediaManagementDAO.getMediaById(mediaId);
         Utils.deleteMediaFile(media);
         return MediaManagementDAO.deleteMedia(mediaId);
