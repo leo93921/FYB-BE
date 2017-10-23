@@ -11,12 +11,12 @@ import java.util.List;
 public interface ICommunicationManager{
 
     @PUT @Path("communication/") @Produces(MediaType.APPLICATION_JSON) @Consumes(MediaType.APPLICATION_JSON)
-    String saveCommunication(Communication communication) throws Exception;
+    Response saveCommunication(Communication communication, @Context HttpHeaders httpHeaders) throws Exception;
 
     @GET @Path("communication/{groupId}") @Produces(MediaType.APPLICATION_JSON)
-    List<Communication> getForGroupId(@PathParam("groupId") String groupId, @Context HttpHeaders httpHeaders) throws Exception;
+    Response getForGroupId(@PathParam("groupId") String groupId, @Context HttpHeaders httpHeaders) throws Exception;
 
-    @GET @Path("communications/{userId}") @Produces(MediaType.APPLICATION_JSON)
-    List<CommunicationForList> getForUser(@PathParam("userId") String userId, @Context HttpHeaders httpHeaders) throws Exception;
+    @GET @Path("communications") @Produces(MediaType.APPLICATION_JSON)
+    Response getForUser(@Context HttpHeaders httpHeaders) throws Exception;
 
 }
