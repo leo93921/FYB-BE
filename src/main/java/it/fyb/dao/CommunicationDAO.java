@@ -69,6 +69,7 @@ public class CommunicationDAO {
             ps.setInt(1, Integer.valueOf(userId));
             ps.setInt(2, Integer.valueOf(userId));
             ps.setInt(3, Integer.valueOf(userId));
+            ps.setInt(4, Integer.valueOf(userId));
             rs = ps.executeQuery();
             while(rs.next()) {
                 CommunicationForList comm = new CommunicationForList();
@@ -83,6 +84,25 @@ public class CommunicationDAO {
             return communications;
         } finally {
             Utils.closeAll(conn, rs);
+        }
+    }
+
+    public static void setCommunicationsAsRead(List<Communication> communications, Integer connectedUser) throws Exception {
+        Connection conn = null;
+        try {
+            conn = Utils.getDataConnection();
+            PreparedStatement ps = conn.prepareStatement(CommunicationSQL.SET_COMM_AS_READ);
+            BigInteger userId = BigInteger.valueOf(connectedUser);
+            for (Communication communication : communications) {
+                if (communication.getSentTo().equals(userId)) {
+                    ps.setObject(1, communication.getId());
+                    ps.addBatch();
+                }
+            }
+            ps.executeBatch();
+            ps.close();
+        } finally {
+            Utils.close(conn);
         }
     }
 }

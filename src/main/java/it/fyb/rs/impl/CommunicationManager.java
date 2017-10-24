@@ -28,9 +28,12 @@ public class CommunicationManager implements ICommunicationManager {
         if (!AuthHelper.checkAuthentication(httpHeaders)) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
+        Integer connectedUser = Integer.valueOf(httpHeaders.getCookies().get(FYBConstants.USER_ID).getValue());
+        List<Communication> communications = CommunicationDAO.getCommunicationsForGroupId(groupId);
+        CommunicationDAO.setCommunicationsAsRead(communications, connectedUser);
         return Response
                 .status(Response.Status.OK)
-                .entity(CommunicationDAO.getCommunicationsForGroupId(groupId))
+                .entity(communications)
                 .build();
     }
 

@@ -11,9 +11,12 @@ public class CommunicationSQL {
             "`testo`, `gruppo`) VALUES (?, ?, ?, ?)";
 
     public static final String GET_COMM_FOR_USER = "select IF(inviato_a_id=?,u2.Nome,u1.Nome) AS send_user, " +
-            "c.gruppo, c.testo, j.last_contact, j.unread from comunication c join (select max(data_inviato) as " +
-            "last_contact, gruppo, IF(SUM(IF(letto,0,1))>0,true,false) as unread from comunication group by gruppo) j on j.gruppo = c.gruppo join utente " +
-            "u1 on inviato_a_id=u1.id join utente u2 on inviato_da_id=u2.id " +
+            "c.gruppo, c.testo, j.last_contact, r.unread from comunication c join (select max(data_inviato) as " +
+            "last_contact, gruppo from comunication group by gruppo) j on j.gruppo = c.gruppo " +
+            "join (select IF(SUM(IF(letto,0,1))>0,true,false) as unread, gruppo from comunication where inviato_a_id=? group by gruppo) r on r.gruppo = c.gruppo " +
+            "join utente u1 on inviato_a_id=u1.id join utente u2 on inviato_da_id=u2.id " +
             "where j.gruppo = c.gruppo and j.last_contact=c.data_inviato and " +
-            "(c.inviato_a_id=? OR c.inviato_da_id=?);";
+            "(c.inviato_a_id=? OR c.inviato_da_id=?)";
+
+    public static final String SET_COMM_AS_READ = "UPDATE `comunication` SET `letto`=true WHERE id=?";
 }
