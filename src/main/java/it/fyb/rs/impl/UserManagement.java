@@ -41,12 +41,12 @@ public class UserManagement implements IUserManagement {
             // Get token when connect
             AuthToken token = AuthManager.getToken(res);
 
-            // Add cookie
-            NewCookie userCookie = new NewCookie(FYBConstants.USER_EMAIL, email, "/", "", "", NewCookie.DEFAULT_MAX_AGE, false);
-            NewCookie typeCookie = new NewCookie(FYBConstants.USER_TYPE, role, "/", "", "", NewCookie.DEFAULT_MAX_AGE, false);
-            NewCookie idCookie = new NewCookie(FYBConstants.USER_ID, String.valueOf(res.getId()), "/", "", "", NewCookie.DEFAULT_MAX_AGE, false);
-            NewCookie nameCookie = new NewCookie(FYBConstants.USER_NAME, res.getName(), "/", "", "", NewCookie.DEFAULT_MAX_AGE, false);
-            NewCookie passCookie = new NewCookie(FYBConstants.USER_TOKEN, token.getToken(), "/", "", "", NewCookie.DEFAULT_MAX_AGE, false);
+            // Add cookie // TODO Cookies doesn't work on IE or EDGE
+            NewCookie userCookie = new NewCookie(FYBConstants.USER_EMAIL, email, "/", FYBConstants.DOMAIN, "", NewCookie.DEFAULT_MAX_AGE, false);
+            NewCookie typeCookie = new NewCookie(FYBConstants.USER_TYPE, role, "/", FYBConstants.DOMAIN, "", NewCookie.DEFAULT_MAX_AGE, false);
+            NewCookie idCookie = new NewCookie(FYBConstants.USER_ID, String.valueOf(res.getId()), "/", FYBConstants.DOMAIN, "", NewCookie.DEFAULT_MAX_AGE, false);
+            NewCookie nameCookie = new NewCookie(FYBConstants.USER_NAME, res.getName(), "/", FYBConstants.DOMAIN, "", NewCookie.DEFAULT_MAX_AGE, false);
+            NewCookie passCookie = new NewCookie(FYBConstants.USER_TOKEN, token.getToken(), "/", FYBConstants.DOMAIN, "", NewCookie.DEFAULT_MAX_AGE, false);
             return Response.status(Response.Status.OK)
                     .cookie(userCookie)
                     .cookie(typeCookie)
