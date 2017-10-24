@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 public class EventManagerDAO {
 
     public static boolean makeOffer(String groupId, EventOffer offer) throws Exception {
+        // TODO offer can be made only by PLACES.
         Connection conn = null;
         ResultSet rs = null;
         try {
@@ -73,6 +74,21 @@ public class EventManagerDAO {
             return offer;
         } finally {
             Utils.closeAll(conn, rs);
+        }
+    }
+
+
+    public static Object acceptOffer(String groupId) throws Exception{
+        Connection conn = null;
+        try {
+            conn = Utils.getDataConnection();
+            PreparedStatement ps = conn.prepareStatement(EventManagerSQL.ACCEPT_OFFER);
+            ps.setString(1, groupId);
+            ps.executeUpdate();
+            ps.close();
+            return true;
+        } finally {
+            Utils.close(conn);
         }
     }
 }

@@ -9,4 +9,6 @@ public class EventManagerSQL {
 
     public static final String UPDATE_OFFER = "UPDATE `evento` SET `nome` = ?, `descrizione` = ?, `data` = ?, " +
             "`prezzo_concordato` = ?, `is_accettata` = false WHERE `gruppo_messaggi`= ?";
+
+    public static final String ACCEPT_OFFER = "UPDATE `evento` SET `is_accettata`=true WHERE `gruppo_messaggi`=?";
 }
