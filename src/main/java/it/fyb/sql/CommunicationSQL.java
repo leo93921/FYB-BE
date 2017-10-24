@@ -19,4 +19,8 @@ public class CommunicationSQL {
             "(c.inviato_a_id=? OR c.inviato_da_id=?)";
 
     public static final String SET_COMM_AS_READ = "UPDATE `comunication` SET `letto`=true WHERE id=?";
+
+    public static final String GET_COMM_USER_NAME = "SELECT IF(c.inviato_a_id=?, u2.Nome, u1.Nome) as _name  FROM `comunication` c " +
+            "JOIN utente u1 ON c.inviato_a_id=u1.id JOIN utente u2 ON c.inviato_da_id=u2.id " +
+            "WHERE `gruppo`=? LIMIT 1";
 }

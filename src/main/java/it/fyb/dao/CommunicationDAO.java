@@ -3,6 +3,7 @@ package it.fyb.dao;
 import it.fyb.Utlis.Utils;
 import it.fyb.model.Communication;
 import it.fyb.model.CommunicationForList;
+import it.fyb.model.CommunicationGroup;
 import it.fyb.sql.CommunicationSQL;
 
 import java.math.BigInteger;
@@ -33,10 +34,11 @@ public class CommunicationDAO {
         }
     }
 
-    public static List<Communication> getCommunicationsForGroupId(String groupId) throws Exception{
+    public static CommunicationGroup getCommunicationsForGroupId(String groupId, Integer connectedUser) throws Exception{
         Connection conn = null;
         ResultSet rs = null;
         List<Communication> communications = new ArrayList<>();
+        CommunicationGroup group = new CommunicationGroup();
         try {
             conn = Utils.getDataConnection();
             PreparedStatement ps = conn.prepareStatement(CommunicationSQL.GET_COMM_FOR_GROUP);
@@ -48,12 +50,20 @@ public class CommunicationDAO {
                 comm.setSentTo(BigInteger.valueOf(rs.getInt("inviato_a_id")));
                 comm.setSentFrom(BigInteger.valueOf(rs.getInt("inviato_da_id")));
                 comm.setText(rs.getString("testo"));
-                comm.setSendDate(rs.getDate("data_inviato").getTime());
+                comm.setSendDate(rs.getTimestamp("data_inviato").getTime());
                 comm.setRead(rs.getBoolean("letto"));
                 communications.add(comm);
             }
+            ps = conn.prepareStatement(CommunicationSQL.GET_COMM_USER_NAME);
+            ps.setObject(1, connectedUser);
+            ps.setString(2, groupId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                group.setName(rs.getString("_name"));
+            }
             ps.close();
-            return communications;
+            group.setMessages(communications);
+            return group;
         } finally {
             Utils.closeAll(conn, rs);
         }

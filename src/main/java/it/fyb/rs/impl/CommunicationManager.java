@@ -5,6 +5,7 @@ import it.fyb.auth.AuthHelper;
 import it.fyb.dao.CommunicationDAO;
 import it.fyb.model.Communication;
 import it.fyb.model.CommunicationForList;
+import it.fyb.model.CommunicationGroup;
 import it.fyb.rs.interfaces.ICommunicationManager;
 
 import javax.ws.rs.core.HttpHeaders;
@@ -29,11 +30,11 @@ public class CommunicationManager implements ICommunicationManager {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         Integer connectedUser = Integer.valueOf(httpHeaders.getCookies().get(FYBConstants.USER_ID).getValue());
-        List<Communication> communications = CommunicationDAO.getCommunicationsForGroupId(groupId);
-        CommunicationDAO.setCommunicationsAsRead(communications, connectedUser);
+        CommunicationGroup communicationGroup = CommunicationDAO.getCommunicationsForGroupId(groupId, connectedUser);
+        CommunicationDAO.setCommunicationsAsRead(communicationGroup.getMessages(), connectedUser);
         return Response
                 .status(Response.Status.OK)
-                .entity(communications)
+                .entity(communicationGroup)
                 .build();
     }
 
