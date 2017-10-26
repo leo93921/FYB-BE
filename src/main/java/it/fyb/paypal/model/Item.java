@@ -4,6 +4,7 @@ public class Item {
 
     public String name;
     public String description;
+    public Integer quantity;
     public String currency;
     public double price;
     public String url;
@@ -22,6 +23,14 @@ public class Item {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public String getCurrency() {

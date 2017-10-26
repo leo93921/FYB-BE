@@ -8,7 +8,6 @@ import javax.ws.rs.client.*;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Date;
 
 public class PayPalManager implements IPayPalManager{
 

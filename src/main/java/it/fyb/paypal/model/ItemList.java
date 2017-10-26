@@ -1,10 +1,11 @@
 package it.fyb.paypal.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemList {
 
-    private List<Item> items;
+    private List<Item> items = new ArrayList<>();
 
     public List<Item> getItems() {
         return items;
