@@ -5,6 +5,7 @@ import it.fyb.auth.AuthHelper;
 import it.fyb.dao.EventManagerDAO;
 import it.fyb.dao.PaymentDAO;
 import it.fyb.model.EventOffer;
+import it.fyb.model.PaymentInfo;
 import it.fyb.paypal.PaypalConstants;
 import it.fyb.paypal.manager.PayPalManager;
 import it.fyb.paypal.model.*;
@@ -40,7 +41,7 @@ public class EventManager implements IEventManager {
     }
 
     @Override
-    public Response payOffer(String groupId) throws Exception {
+    public Response approveOffer(String groupId) throws Exception {
         EventOffer offer = EventManagerDAO.getOffer(groupId);
         // TODO Handle exceptions in html!
         if (!offer.isAccepted()){
@@ -67,6 +68,14 @@ public class EventManager implements IEventManager {
 
         // Return response
         return Response.status(Response.Status.OK).entity(redirectUrl).build();
+    }
+
+    @Override
+    public Response payOffer(String groupId, PaymentInfo paymentInfo) throws Exception {
+        PayPalManager payPalManager = new PayPalManager();
+        Payment payment = payPalManager
+                .executePayment(paymentInfo.getPaymentId(), paymentInfo.getPayerID());
+        return Response.status(Response.Status.OK).entity(payment).build();
     }
 
     private Payment createPaymentObject(EventOffer offer, String messageGroup) {
