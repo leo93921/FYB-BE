@@ -11,4 +11,5 @@ public class EventManagerSQL {
             "`prezzo_concordato` = ?, `is_accettata` = false WHERE `gruppo_messaggi`= ?";
 
     public static final String ACCEPT_OFFER = "UPDATE `evento` SET `is_accettata`=true WHERE `gruppo_messaggi`=?";
+    public static final String OFFER_AS_PAID = "UPDATE `evento` SET `paid`=true WHERE `gruppo_messaggi`=?";
 }

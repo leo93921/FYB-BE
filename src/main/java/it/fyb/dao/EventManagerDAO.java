@@ -91,4 +91,17 @@ public class EventManagerDAO {
             Utils.close(conn);
         }
     }
+
+    public static void setEventAsPaid(String groupId) throws Exception{
+        Connection conn = null;
+        try {
+            conn = Utils.getDataConnection();
+            PreparedStatement ps = conn.prepareStatement(EventManagerSQL.OFFER_AS_PAID);
+            ps.setString(1, groupId);
+            ps.executeUpdate();
+            ps.close();
+        } finally {
+            Utils.close(conn);
+        }
+    }
 }
