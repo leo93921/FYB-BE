@@ -4,6 +4,7 @@ public class FYBConstants {
 
     // TODO Change for production
     public static String DOMAIN = "localhost";
+    public static String BASE_URL = "http://localhost:4200";
 
     public static String USER_EMAIL = "e";
     public static String USER_TYPE = "t";

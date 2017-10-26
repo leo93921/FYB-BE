@@ -1,6 +1,7 @@
 package it.fyb.rs.interfaces;
 
 import it.fyb.model.EventOffer;
+import it.fyb.model.Media;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -20,4 +21,7 @@ public interface IEventManager {
     @PUT @Path("{groupId}") @Produces({MediaType.APPLICATION_JSON})
     Response acceptOffer(@PathParam("groupId") String groupId, @Context HttpHeaders httpHeaders)
             throws Exception;
+
+    @GET @Path("pay/{groupId}") @Produces(MediaType.APPLICATION_JSON)
+    Response payOffer(@PathParam("groupId") String groupId) throws Exception;
 }
