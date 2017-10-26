@@ -73,9 +73,16 @@ public class EventManager implements IEventManager {
     @Override
     public Response payOffer(String groupId, PaymentInfo paymentInfo) throws Exception {
         PayPalManager payPalManager = new PayPalManager();
-        Payment payment = payPalManager
-                .executePayment(paymentInfo.getPaymentId(), paymentInfo.getPayerID());
-        return Response.status(Response.Status.OK).entity(payment).build();
+        payPalManager.executePayment(paymentInfo.getPaymentId(), paymentInfo.getPayerID());
+
+        Payment payment = payPalManager.getPaymentInfo(paymentInfo.getPaymentId());
+        Boolean isCompleted = payment.getTransactions().get(0)
+                .getRelated_resources().get(0)
+                .getSale().getState().equals(Sale.SALE_COMPLETED_STATUS);
+        if (isCompleted)  {
+            EventManagerDAO.setEventAsPaid(groupId);
+        }
+        return Response.status(Response.Status.OK).entity(true).build();
     }
 
     private Payment createPaymentObject(EventOffer offer, String messageGroup) {
