@@ -1,8 +1,10 @@
 package it.fyb.paypal.manager;
 
 import it.fyb.paypal.PaypalConstants;
+import it.fyb.paypal.model.ExecutePaymentPayload;
 import it.fyb.paypal.model.Payment;
 import it.fyb.paypal.model.Token;
+import jdk.nashorn.internal.parser.JSONParser;
 
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.Form;
@@ -27,22 +29,45 @@ public class PayPalManager implements IPayPalManager{
         activeToken.setCreationTime(response.getDate());
     }
 
+    private void refreshToken() {
+        if (activeToken == null || activeToken.isExpired()) {
+            getToken();
+        }
+    }
+
+    private Invocation.Builder getBuilder(WebTarget target) {
+        return target
+                .request(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + activeToken.getAccess_token());
+    }
 
     @Override
     public Payment makePayment(Payment payment) {
 
-        if (activeToken == null || activeToken.isExpired()) {
-            getToken();
-        }
+        refreshToken();
 
-        WebTarget target = client.target(PaypalConstants.PAYMENT_ENDPOINT);
-        Invocation.Builder invocationBuilder = target
-                .request(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + activeToken.getAccess_token());
+        Invocation.Builder invocationBuilder = getBuilder(
+                client.target(PaypalConstants.PAYMENT_ENDPOINT));
         Payment p = invocationBuilder.post(
                 Entity.entity(payment, MediaType.APPLICATION_JSON))
                 .readEntity(Payment.class);
 
         return p;
+    }
+
+    @Override
+    public Payment executePayment(String paymentId, String payerId) {
+        refreshToken();
+
+        WebTarget target = client.target(PaypalConstants.EXECUTE_PAYMENT_ENDPOINT
+                .replace("$PAYID$", paymentId));
+        Invocation.Builder invocationBuilder = getBuilder(target);
+
+        ExecutePaymentPayload payload = new ExecutePaymentPayload();
+        payload.setPayer_id(payerId);
+
+        return invocationBuilder
+                .post(Entity.entity(payload, MediaType.APPLICATION_JSON))
+                .readEntity(Payment.class);
     }
 }
