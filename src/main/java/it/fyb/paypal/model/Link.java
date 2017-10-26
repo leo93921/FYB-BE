@@ -2,6 +2,8 @@ package it.fyb.paypal.model;
 
 public class Link {
 
+    public static final String APPROVAL_REL = "approval_url";
+
     private String href;
     private String rel;
     private String method;
@@ -29,4 +31,5 @@ public class Link {
     public void setMethod(String method) {
         this.method = method;
     }
+
 }
