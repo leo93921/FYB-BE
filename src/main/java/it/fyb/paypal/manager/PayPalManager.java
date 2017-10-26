@@ -70,4 +70,12 @@ public class PayPalManager implements IPayPalManager{
                 .post(Entity.entity(payload, MediaType.APPLICATION_JSON))
                 .readEntity(Payment.class);
     }
+
+    @Override
+    public Payment getPaymentInfo(String paymentId) {
+        String endPoint = PaypalConstants.PAYMENT_ENDPOINT+"/"+paymentId;
+        WebTarget target = client.target(endPoint);
+        Invocation.Builder invocationBuilder = getBuilder(target);
+        return invocationBuilder.get().readEntity(Payment.class);
+    }
 }

@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Sale {
 
+    public static final String SALE_COMPLETED_STATUS = "completed";
+
     private String id;
     private String state;
     private Amount amount;

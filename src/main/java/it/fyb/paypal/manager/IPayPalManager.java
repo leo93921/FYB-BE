@@ -6,5 +6,6 @@ public interface IPayPalManager {
 
     Payment makePayment(Payment payment);
     Payment executePayment(String paymentId, String payerId);
+    Payment getPaymentInfo(String paymentId);
 
 }
