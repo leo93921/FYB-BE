@@ -41,7 +41,7 @@ public class UserManagement implements IUserManagement {
             // Get token when connect
             AuthToken token = AuthManager.getToken(res);
 
-            // Add cookie // TODO Cookies doesn't work on IE or EDGE
+            // Add cookie
             NewCookie userCookie = new NewCookie(FYBConstants.USER_EMAIL, email, "/", FYBConstants.DOMAIN, "", NewCookie.DEFAULT_MAX_AGE, false);
             NewCookie typeCookie = new NewCookie(FYBConstants.USER_TYPE, role, "/", FYBConstants.DOMAIN, "", NewCookie.DEFAULT_MAX_AGE, false);
             NewCookie idCookie = new NewCookie(FYBConstants.USER_ID, String.valueOf(res.getId()), "/", FYBConstants.DOMAIN, "", NewCookie.DEFAULT_MAX_AGE, false);
