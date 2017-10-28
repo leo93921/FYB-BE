@@ -3,6 +3,7 @@ package it.fyb.model;
 import java.math.BigInteger;
 
 public class EventOffer {
+    private Integer id;
     private BigInteger groupId;
     private BigInteger placeId;
     private String name;
@@ -10,6 +11,15 @@ public class EventOffer {
     private long date;
     private float price;
     private boolean accepted;
+    private boolean paid;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public BigInteger getGroupId() {
         return groupId;
@@ -65,5 +75,13 @@ public class EventOffer {
 
     public void setAccepted(boolean accepted) {
         this.accepted = accepted;
+    }
+
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
     }
 }

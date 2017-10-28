@@ -5,6 +5,7 @@ import it.fyb.model.EventOffer;
 import it.fyb.rs.impl.EventManager;
 import it.fyb.sql.EventManagerSQL;
 
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -60,12 +61,14 @@ public class EventManagerDAO {
             rs = psGet.executeQuery();
             EventOffer offer = new EventOffer();
             if (rs.next()) {
+                offer.setId(rs.getInt("id"));
                 offer.setPlaceId(rs.getBigDecimal("organizzatore_id").toBigInteger());
                 offer.setGroupId(rs.getBigDecimal("gruppo_partecipante_id").toBigInteger());
                 offer.setName(rs.getString("nome"));
                 offer.setDescription(rs.getString("descrizione"));
                 offer.setDate(rs.getDate("data").getTime());
                 offer.setAccepted(rs.getBoolean("is_accettata"));
+                offer.setPaid(rs.getBoolean("paid"));
                 offer.setPrice(rs.getFloat("prezzo_concordato"));
             } else {
                 return null;
