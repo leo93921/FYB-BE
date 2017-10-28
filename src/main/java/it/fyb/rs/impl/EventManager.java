@@ -88,6 +88,13 @@ public class EventManager implements IEventManager {
         return Response.status(Response.Status.OK).entity(true).build();
     }
 
+    @Override
+    public Response getEvent(Integer eventId) throws Exception {
+        return Response.status(Response.Status.OK)
+                .entity(EventManagerDAO.getEventInfo(eventId))
+                .build();
+    }
+
     private Payment createPaymentObject(EventOffer offer, String messageGroup) {
         String payDescription = "Evento: "+ offer.getName()+"; ID: " + messageGroup;
 

@@ -1,15 +1,19 @@
 package it.fyb.dao;
 
 import it.fyb.Utlis.Utils;
+import it.fyb.model.EventInfo;
 import it.fyb.model.EventOffer;
 import it.fyb.rs.impl.EventManager;
 import it.fyb.sql.EventManagerSQL;
+import sun.nio.cs.UTF_32LE;
 
 import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EventManagerDAO {
 
@@ -105,6 +109,45 @@ public class EventManagerDAO {
             ps.close();
         } finally {
             Utils.close(conn);
+        }
+    }
+
+    public static EventInfo getEventInfo(Integer eventId) throws Exception {
+        Connection conn = null;
+        ResultSet rsInfo = null;
+        ResultSet rsMedia = null;
+        try {
+            conn = Utils.getDataConnection();
+            PreparedStatement psInfo = conn.prepareStatement(EventManagerSQL.GET_EVENT_INFO);
+            psInfo.setInt(1, eventId);
+            rsInfo = psInfo.executeQuery();
+            EventInfo info = new EventInfo();
+            if (rsInfo.next()){
+                info.setEventName(rsInfo.getString("nome"));
+                info.setDescription(rsInfo.getString("descrizione"));
+                info.setPlaceName(rsInfo.getString("placeName"));
+                info.setFormattedAddress(rsInfo.getString("formattedAddress"));
+                info.setDate(rsInfo.getTimestamp("data").getTime());
+            } else {
+                return null;
+            }
+
+            // Getting images to show
+            PreparedStatement psMedia = conn.prepareStatement(EventManagerSQL.GET_EVENT_IMAGES);
+            psMedia.setObject(1, rsInfo.getObject("organizzatore_id"));
+            psMedia.setObject(2, rsInfo.getObject("gruppo_partecipante_id"));
+            psInfo.close();
+            rsMedia = psMedia.executeQuery();
+            List<String> images = new ArrayList<>();
+            while (rsMedia.next()) {
+                images.add(rsMedia.getString("url"));
+            }
+            info.setImages(images);
+            psMedia.close();
+            return info;
+        } finally {
+            Utils.close(rsMedia);
+            Utils.closeAll(conn, rsInfo);
         }
     }
 }

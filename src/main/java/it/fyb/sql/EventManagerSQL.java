@@ -1,5 +1,7 @@
 package it.fyb.sql;
 
+import it.fyb.Utlis.Types;
+
 public class EventManagerSQL {
 
     public static String MAKE_OFFER = "INSERT INTO `evento` (`organizzatore_id`, `gruppo_partecipante_id`, " +
@@ -12,4 +14,11 @@ public class EventManagerSQL {
 
     public static final String ACCEPT_OFFER = "UPDATE `evento` SET `is_accettata`=true WHERE `gruppo_messaggi`=?";
     public static final String OFFER_AS_PAID = "UPDATE `evento` SET `paid`=true WHERE `gruppo_messaggi`=?";
+
+    public static final String GET_EVENT_INFO = "SELECT e.*, u1.Nome as placeName, " +
+            "u1.indirizzo_formattato as formattedAddress FROM evento e join utente u1 on u1.id=e.organizzatore_id " +
+            "where e.id=?";
+
+    public static final String GET_EVENT_IMAGES = "SELECT url FROM media WHERE (id_utente=? or id_utente=?) " +
+            "and `type` LIKE '"+ Types.IMAGE_FILES+"%' order by id_utente";
 }

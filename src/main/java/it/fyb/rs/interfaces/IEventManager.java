@@ -28,4 +28,7 @@ public interface IEventManager {
 
     @POST @Path("pay/{groupId}") @Produces(MediaType.APPLICATION_JSON)
     Response payOffer(@PathParam("groupId") String groupId, PaymentInfo paymentInfo) throws Exception;
+
+    @GET @Path("/for-user/{eventId}") @Produces(MediaType.APPLICATION_JSON)
+    Response getEvent(@PathParam("eventId") Integer eventId) throws Exception;
 }
