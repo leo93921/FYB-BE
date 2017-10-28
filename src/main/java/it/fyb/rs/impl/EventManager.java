@@ -47,6 +47,9 @@ public class EventManager implements IEventManager {
         if (!offer.isAccepted()){
             throw new Exception("L'offerta deve essere prima accetta");
         }
+        if (offer.isPaid()) {
+            throw new Exception("L'offerta è già stata accettata");
+        }
 
         Payment p = this.createPaymentObject(offer, groupId);
 
@@ -99,7 +102,7 @@ public class EventManager implements IEventManager {
 
         // Redirect url
         RedirectUrls urls = new RedirectUrls();
-        urls.setCancel_url(FYBConstants.BASE_URL + "/cancel/"+messageGroup);
+        urls.setCancel_url(FYBConstants.BASE_URL + "/messages/"+messageGroup);
         urls.setReturn_url(FYBConstants.BASE_URL + "/elaborate/"+messageGroup);
         p.setRedirect_urls(urls);
 
