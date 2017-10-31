@@ -10,6 +10,7 @@ public class PaypalConstants {
 
     public static String TOKEN_ENDPOINT = "https://api.sandbox.paypal.com/v1/oauth2/token";
     public static String PAYMENT_ENDPOINT = "https://api.sandbox.paypal.com/v1/payments/payment";
+    public static final String SALE_ENDPOINT = "https://api.sandbox.paypal.com/v1/payments/sale/";
     public static final String EXECUTE_PAYMENT_ENDPOINT = "https://api.sandbox.paypal.com/v1/payments/" +
             "payment/$PAYID$/execute";
 

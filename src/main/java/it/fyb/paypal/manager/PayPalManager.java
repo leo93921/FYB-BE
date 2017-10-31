@@ -1,9 +1,7 @@
 package it.fyb.paypal.manager;
 
 import it.fyb.paypal.PaypalConstants;
-import it.fyb.paypal.model.ExecutePaymentPayload;
-import it.fyb.paypal.model.Payment;
-import it.fyb.paypal.model.Token;
+import it.fyb.paypal.model.*;
 import jdk.nashorn.internal.parser.JSONParser;
 
 import javax.ws.rs.client.*;
@@ -73,9 +71,24 @@ public class PayPalManager implements IPayPalManager{
 
     @Override
     public Payment getPaymentInfo(String paymentId) {
+        // TODO Check if this line is needed
+        refreshToken();
+
         String endPoint = PaypalConstants.PAYMENT_ENDPOINT+"/"+paymentId;
         WebTarget target = client.target(endPoint);
         Invocation.Builder invocationBuilder = getBuilder(target);
         return invocationBuilder.get().readEntity(Payment.class);
+    }
+
+    @Override
+    public Refund refundSale(String saleId, RefundSalePayload amount) {
+        refreshToken();
+
+        String endPoint = PaypalConstants.SALE_ENDPOINT + saleId + "/refund";
+        WebTarget target = client.target(endPoint);
+        Invocation.Builder invocationBuilder = getBuilder(target);
+        return invocationBuilder
+                .post(Entity.entity(amount, MediaType.APPLICATION_JSON))
+                .readEntity(Refund.class);
     }
 }
