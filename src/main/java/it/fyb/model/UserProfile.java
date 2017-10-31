@@ -11,6 +11,8 @@ public class UserProfile {
     private String email;
     private String priceBand;
     private String youtube;
+    private Integer feedbackCount;
+    private float feedbackValue;
     private List<Media> music;
     private List<Media> images;
 
@@ -68,6 +70,22 @@ public class UserProfile {
 
     public void setYoutube(String youtube) {
         this.youtube = youtube;
+    }
+
+    public Integer getFeedbackCount() {
+        return feedbackCount;
+    }
+
+    public void setFeedbackCount(Integer feedbackCount) {
+        this.feedbackCount = feedbackCount;
+    }
+
+    public float getFeedbackValue() {
+        return feedbackValue;
+    }
+
+    public void setFeedbackValue(float feedbackValue) {
+        this.feedbackValue = feedbackValue;
     }
 
     public List<Media> getMusic() {

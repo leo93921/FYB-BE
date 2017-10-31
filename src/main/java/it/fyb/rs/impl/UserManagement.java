@@ -79,6 +79,8 @@ public class UserManagement implements IUserManagement {
         profile.setPhone(user.getPhone());
         profile.setPriceBand(user.getPrice());
         profile.setYoutube(user.getYoutube());
+        profile.setFeedbackCount(user.getFeedbackCount());
+        profile.setFeedbackValue(user.getFeedbackValue());
         List<Media> images = MediaManagementDAO.getMedia(Integer.valueOf(userId), Types.IMAGE_FILES);
         profile.setImages(images);
         List<Media> music = MediaManagementDAO.getMedia(Integer.valueOf(userId), Types.AUDIO_FILES);

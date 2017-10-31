@@ -79,6 +79,8 @@ public class UserManagementDAO {
                 userData.setLtd(rs.getString("latitudine"));
                 userData.setLng(rs.getString("longitudine"));
                 userData.setFormattedAddress(rs.getString("indirizzo_formattato"));
+                userData.setFeedbackValue(rs.getFloat("feedback_value"));
+                userData.setFeedbackCount(rs.getInt("feedback_count"));
             }
             return userData;
         } finally {

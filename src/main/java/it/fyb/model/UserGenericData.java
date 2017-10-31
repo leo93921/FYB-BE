@@ -14,6 +14,8 @@ public class UserGenericData {
     private String ltd;
     private String lng;
     private String formattedAddress;
+    private float feedbackValue;
+    private Integer feedbackCount;
 
     public String getName() {
         return name;
@@ -117,5 +119,21 @@ public class UserGenericData {
 
     public void setFormattedAddress(String formattedAddress) {
         this.formattedAddress = formattedAddress;
+    }
+
+    public float getFeedbackValue() {
+        return feedbackValue;
+    }
+
+    public void setFeedbackValue(float feedbackValue) {
+        this.feedbackValue = feedbackValue;
+    }
+
+    public Integer getFeedbackCount() {
+        return feedbackCount;
+    }
+
+    public void setFeedbackCount(Integer feedbackCount) {
+        this.feedbackCount = feedbackCount;
     }
 }

@@ -18,7 +18,9 @@ public class UserManagementSQL {
             "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
     public static final String GET_USER_GENERIC_DATA = "SELECT tariffa_id, Nome, Descrizione, Telefono, Paypal, indirizzo, " +
-            "citta, cap, latitudine, longitudine, email, youtube_link, indirizzo_formattato FROM `utente` WHERE id = ?";
+            "citta, cap, latitudine, longitudine, email, youtube_link, indirizzo_formattato, COUNT(f.id) as feedback_count, " +
+            "(SUM(voto)/COUNT(f.id)) as feedback_value FROM `utente` LEFT JOIN feedback f " +
+            "on f.inviato_a_id= utente.id WHERE utente.id = ?";
 
     public static final String SAVE_USER_GENERIC_DATA = "UPDATE `utente` SET `tariffa_id` = ?, `Nome` = ?, " +
             "`Descrizione` = ?, `Telefono` = ?, `Paypal` = ?, `indirizzo` = ?, `citta` = ?, `cap` = ?, `latitudine` = ?, " +
