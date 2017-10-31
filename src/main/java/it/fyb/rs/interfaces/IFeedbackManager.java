@@ -1,11 +1,9 @@
 package it.fyb.rs.interfaces;
 
 import it.fyb.model.Feedback;
+import it.fyb.model.Media;
 
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -18,4 +16,9 @@ public interface IFeedbackManager {
     @Path("{userId}") @Produces(MediaType.APPLICATION_JSON)
     Response saveFeedback(@PathParam("userId") String userId, Feedback feedback,
                           @Context HttpHeaders httpHeaders) throws Exception;
+
+    @GET
+    @Path("to-be-left") @Produces(MediaType.APPLICATION_JSON)
+    Response getFeedbackToBeLeft(@Context HttpHeaders httpHeaders) throws Exception;
+
 }

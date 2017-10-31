@@ -4,6 +4,7 @@ public class Feedback {
 
     private Integer value;
     private String text;
+    private Integer eventId;
 
     public Integer getValue() {
         return value;
@@ -19,5 +20,13 @@ public class Feedback {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Integer getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(Integer eventId) {
+        this.eventId = eventId;
     }
 }

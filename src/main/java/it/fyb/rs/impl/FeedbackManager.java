@@ -22,4 +22,18 @@ public class FeedbackManager implements IFeedbackManager {
                 .entity(FeedbackDAO.saveFeedback(Integer.valueOf(userId), connectedUser, feedback))
                 .build();
     }
+
+    @Override
+    public Response getFeedbackToBeLeft(HttpHeaders httpHeaders) throws Exception {
+        if (!AuthHelper.checkAuthentication(httpHeaders)) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        String connectedUser = httpHeaders.getCookies()
+                .get(FYBConstants.USER_ID).getValue();
+
+        return Response
+                .status(Response.Status.OK)
+                .entity(FeedbackDAO.getFeedbackToBeLeft(connectedUser))
+                .build();
+    }
 }
