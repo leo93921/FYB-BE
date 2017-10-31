@@ -7,10 +7,7 @@ import it.fyb.auth.AuthManager;
 import it.fyb.auth.AuthToken;
 import it.fyb.dao.MediaManagementDAO;
 import it.fyb.dao.UserManagementDAO;
-import it.fyb.model.Media;
-import it.fyb.model.RegistrationUser;
-import it.fyb.model.UserGenericData;
-import it.fyb.model.UserProfile;
+import it.fyb.model.*;
 import it.fyb.rs.interfaces.IUserManagement;
 
 import javax.ws.rs.core.NewCookie;

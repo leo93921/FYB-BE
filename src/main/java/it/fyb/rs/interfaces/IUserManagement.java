@@ -1,6 +1,5 @@
 package it.fyb.rs.interfaces;
 
-import it.fyb.model.Media;
 import it.fyb.model.RegistrationUser;
 import it.fyb.model.UserGenericData;
 
