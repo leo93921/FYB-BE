@@ -114,4 +114,22 @@ public class UserManagementDAO {
         }
     }
 
+    public static String getCurrentPosition(Integer userId) throws Exception {
+        Connection conn = null;
+        ResultSet rs = null;
+        try {
+            conn = Utils.getDataConnection();
+            PreparedStatement ps = conn.prepareStatement(UserManagementSQL.CURRENT_POSITIOIN);
+            ps.setInt(1, userId);
+            rs = ps.executeQuery();
+            String currentAddress = "";
+            if (rs.next()) {
+                currentAddress = rs.getString("current_address");
+            }
+            ps.close();
+            return currentAddress;
+        } finally {
+            Utils.closeAll(conn, rs);
+        }
+    }
 }

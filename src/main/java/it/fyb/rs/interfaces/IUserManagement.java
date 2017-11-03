@@ -4,6 +4,8 @@ import it.fyb.model.RegistrationUser;
 import it.fyb.model.UserGenericData;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.math.BigInteger;
@@ -26,4 +28,6 @@ public interface IUserManagement {
     @GET @Path("/{userId}") @Produces(MediaType.APPLICATION_JSON)
     Response getUserProfile(@PathParam("userId") String userId) throws Exception;
 
+    @GET @Path("/current-position") @Produces(MediaType.APPLICATION_JSON)
+    Response getCurrentPosition(@Context HttpHeaders httpHeaders) throws Exception;
 }

@@ -25,4 +25,7 @@ public class UserManagementSQL {
     public static final String SAVE_USER_GENERIC_DATA = "UPDATE `utente` SET `tariffa_id` = ?, `Nome` = ?, " +
             "`Descrizione` = ?, `Telefono` = ?, `Paypal` = ?, `indirizzo` = ?, `citta` = ?, `cap` = ?, `latitudine` = ?, " +
             "`longitudine` = ?, `indirizzo_formattato` = ?, `email` = ?, `youtube_link` = ? WHERE `id` = ?";
+
+    public static final String CURRENT_POSITIOIN = "SELECT indirizzo_formattato as current_address FROM " +
+            "utente WHERE id=?";
 }

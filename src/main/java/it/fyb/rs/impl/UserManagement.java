@@ -3,6 +3,7 @@ package it.fyb.rs.impl;
 import it.fyb.Utlis.FYBConstants;
 import it.fyb.Utlis.Types;
 import it.fyb.Utlis.Utils;
+import it.fyb.auth.AuthHelper;
 import it.fyb.auth.AuthManager;
 import it.fyb.auth.AuthToken;
 import it.fyb.dao.MediaManagementDAO;
@@ -10,6 +11,7 @@ import it.fyb.dao.UserManagementDAO;
 import it.fyb.model.*;
 import it.fyb.rs.interfaces.IUserManagement;
 
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import java.math.BigInteger;
@@ -86,5 +88,17 @@ public class UserManagement implements IUserManagement {
         List<Media> music = MediaManagementDAO.getMedia(Integer.valueOf(userId), Types.AUDIO_FILES);
         profile.setMusic(music);
         return Response.status(Response.Status.OK).entity(profile).build();
+    }
+
+    @Override
+    public Response getCurrentPosition(HttpHeaders httpHeaders) throws Exception {
+        if (!AuthHelper.checkAuthentication(httpHeaders)) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        Integer userId = Integer.valueOf(httpHeaders.getCookies()
+                .get(FYBConstants.USER_ID).getValue());
+        return Response.status(Response.Status.OK)
+                .entity(UserManagementDAO.getCurrentPosition(userId))
+                .build();
     }
 }
