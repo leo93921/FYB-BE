@@ -5,6 +5,7 @@ import it.fyb.auth.AuthHelper;
 import it.fyb.dao.EventManagerDAO;
 import it.fyb.dao.PaymentDAO;
 import it.fyb.model.EventOffer;
+import it.fyb.model.EventOfferWithPay;
 import it.fyb.model.PaymentInfo;
 import it.fyb.paypal.PaypalConstants;
 import it.fyb.paypal.manager.PayPalManager;
@@ -22,6 +23,7 @@ public class EventManager implements IEventManager {
     @Override
     public boolean makeOffer(String groupId, EventOffer offer) throws Exception {
         // TODO accepted offers cannot be changed
+        // TODO in every service, add authentication. Where needed
         return EventManagerDAO.makeOffer(groupId, offer);
     }
 
@@ -93,6 +95,38 @@ public class EventManager implements IEventManager {
         return Response.status(Response.Status.OK)
                 .entity(EventManagerDAO.getEventInfo(eventId))
                 .build();
+    }
+
+    @Override
+    public boolean issueRefund(String eventId) throws Exception {
+        // TODO handle not paid
+        EventOfferWithPay eventOffer = EventManagerDAO.getOfferFromEventId(eventId);
+
+        PayPalManager payPalManager = new PayPalManager();
+        Payment payment = payPalManager.getPaymentInfo(eventOffer.getPaymentId());
+        Sale sale = payment.getTransactions().get(0)
+                .getRelated_resources().get(0)
+                .getSale();
+        // TODO check completed state for sale
+        // Calculate value of refund
+        Boolean isFullRefund = sale.getCreate_time().getTime() <
+                (eventOffer.getEventDate().getTime() - FYBConstants.MILLISECONDS_IN_A_DAY*FYBConstants.MAX_DAYS_FOR_REFUND);
+        Refund refund;
+        if (isFullRefund) {
+            refund = payPalManager.refundSale(sale.getId(), null);
+        } else {
+            double total =
+                    (sale.getAmount().getTotal() - sale.getTransaction_fee().getValue()) * FYBConstants.REFUND_PERCENTAGE_AFTER_MAX_DAYS;
+            String currency = sale.getAmount().getCurrency();
+            RefundSalePayload amount = new RefundSalePayload(total, currency);
+            refund = payPalManager.refundSale(sale.getId(), amount);
+        }
+        if (refund.getState().equals("failed")) {
+            return false;
+        } else {
+            EventManagerDAO.setEventAsRefunded(eventId);
+            return true;
+        }
     }
 
     private Payment createPaymentObject(EventOffer offer, String messageGroup) {

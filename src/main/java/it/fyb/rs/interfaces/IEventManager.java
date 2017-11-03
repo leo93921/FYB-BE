@@ -31,4 +31,7 @@ public interface IEventManager {
 
     @GET @Path("/for-user/{eventId}") @Produces(MediaType.APPLICATION_JSON)
     Response getEvent(@PathParam("eventId") Integer eventId) throws Exception;
+
+    @POST @Path("/refund/{eventId}") @Produces(MediaType.APPLICATION_JSON)
+    boolean issueRefund(@PathParam("eventId") String eventId) throws Exception;
 }

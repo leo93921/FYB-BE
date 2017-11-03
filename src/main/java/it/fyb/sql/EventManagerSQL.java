@@ -21,4 +21,8 @@ public class EventManagerSQL {
 
     public static final String GET_EVENT_IMAGES = "SELECT url FROM media WHERE (id_utente=? or id_utente=?) " +
             "and `type` LIKE '"+ Types.IMAGE_FILES+"%' order by id_utente";
+
+    public static final String OFFER_FROM_EVENT_ID = "select * from evento where id=?";
+
+    public static final String OFFER_AS_REFUNDED = "update evento set refunded=true, paid=false where id=?";
 }

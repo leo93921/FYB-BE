@@ -3,11 +3,9 @@ package it.fyb.dao;
 import it.fyb.Utlis.Utils;
 import it.fyb.model.EventInfo;
 import it.fyb.model.EventOffer;
-import it.fyb.rs.impl.EventManager;
+import it.fyb.model.EventOfferWithPay;
 import it.fyb.sql.EventManagerSQL;
-import sun.nio.cs.UTF_32LE;
 
-import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -148,6 +146,40 @@ public class EventManagerDAO {
         } finally {
             Utils.close(rsMedia);
             Utils.closeAll(conn, rsInfo);
+        }
+    }
+
+    public static EventOfferWithPay getOfferFromEventId(String eventId) throws Exception {
+        Connection conn = null;
+        ResultSet rs = null;
+        try {
+            conn = Utils.getDataConnection();
+            PreparedStatement ps = conn.prepareStatement(EventManagerSQL.OFFER_FROM_EVENT_ID);
+            ps.setString(1, eventId);
+            rs = ps.executeQuery();
+            EventOfferWithPay offer = new EventOfferWithPay();
+            if (rs.next()) {
+                offer.setEventDate(rs.getTimestamp("data"));
+                offer.setEventId(rs.getInt("id"));
+                offer.setPaymentId(rs.getString("payment_id"));
+            }
+            ps.close();
+            return offer;
+        } finally {
+            Utils.closeAll(conn, rs);
+        }
+    }
+
+    public static void setEventAsRefunded(String eventId) throws Exception{
+        Connection conn = null;
+        try {
+            conn = Utils.getDataConnection();
+            PreparedStatement ps = conn.prepareStatement(EventManagerSQL.OFFER_AS_REFUNDED);
+            ps.setString(1, eventId);
+            ps.executeUpdate();
+            ps.close();
+        } finally {
+            Utils.close(conn);
         }
     }
 }
