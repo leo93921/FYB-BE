@@ -19,6 +19,7 @@ public class FYBApplication extends Application {
         h.add(CommunicationManager.class);
         h.add(EventManager.class);
         h.add(FeedbackManager.class);
+        h.add(SearchManager.class);
         return h;
     }
 }
