@@ -1,9 +1,11 @@
 package it.fyb.dao;
 
+import it.fyb.Utlis.FYBConstants;
 import it.fyb.Utlis.Utils;
 import it.fyb.model.EventInfo;
 import it.fyb.model.EventOffer;
 import it.fyb.model.EventOfferWithPay;
+import it.fyb.model.EventWithAction;
 import it.fyb.sql.EventManagerSQL;
 
 import java.sql.Connection;
@@ -181,5 +183,54 @@ public class EventManagerDAO {
         } finally {
             Utils.close(conn);
         }
+    }
+
+    public static List<EventWithAction> getEventWithAction(Integer userId) throws Exception {
+        Connection conn = null;
+        ResultSet rs = null;
+        try {
+            conn = Utils.getDataConnection();
+            PreparedStatement ps = conn.prepareStatement(EventManagerSQL.EVENT_FOR_USER_ID);
+            ps.setInt(1, userId);
+            ps.setInt(2, userId);
+            ps.setInt(3, userId);
+            ps.setInt(4, userId);
+            ps.setInt(5, userId);
+            rs = ps.executeQuery();
+            List<EventWithAction> events = new ArrayList<>();
+            while (rs.next()) {
+                EventWithAction event = new EventWithAction();
+                event.setEventId(rs.getInt("event_id"));
+                event.setMessageGroup(rs.getString("gruppo_messaggi"));
+                event.setName(rs.getString("event_name"));
+                event.setWhen(rs.getTimestamp("event_date").getTime());
+                event.setPrice(rs.getFloat("prezzo_concordato"));
+                event.setOtherName(rs.getString("other_name"));
+                event.setDescription(rs.getString("descrizione"));
+                event.setPlaceAddress(rs.getString("indirizzo_formattato"));
+                event.setFeedbackLeft(rs.getObject("feedback_id") != null);
+                event.setOtherUserId(rs.getInt("other_user_id"));
+                if (rs.getBoolean("is_accettata")) {
+                    event.setStatus(FYBConstants.OFFER_ACCEPTED);
+                    if (rs.getBoolean("paid")) {
+                        event.setStatus(FYBConstants.OFFER_PAID);
+                    } else {
+                        event.setStatus(FYBConstants.OFFER_NOT_PAID);
+                    }
+                    if (rs.getBoolean("refunded")) {
+                        event.setStatus(FYBConstants.OFFER_REFUNDED);
+                    }
+                }else {
+                    event.setStatus(FYBConstants.OFFER_NOT_ACCEPTED);
+                }
+
+                events.add(event);
+            }
+            ps.close();
+            return events;
+        } finally {
+            Utils.close(conn);
+        }
+
     }
 }

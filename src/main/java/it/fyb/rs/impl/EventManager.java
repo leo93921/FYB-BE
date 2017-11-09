@@ -6,6 +6,7 @@ import it.fyb.dao.EventManagerDAO;
 import it.fyb.dao.PaymentDAO;
 import it.fyb.model.EventOffer;
 import it.fyb.model.EventOfferWithPay;
+import it.fyb.model.EventWithAction;
 import it.fyb.model.PaymentInfo;
 import it.fyb.paypal.PaypalConstants;
 import it.fyb.paypal.manager.PayPalManager;
@@ -127,6 +128,21 @@ public class EventManager implements IEventManager {
             EventManagerDAO.setEventAsRefunded(eventId);
             return true;
         }
+    }
+
+    @Override
+    public Response getEventForConnectedUser(HttpHeaders httpHeaders) throws Exception {
+        if (!AuthHelper.checkAuthentication(httpHeaders)) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        Integer userId = Integer.valueOf(httpHeaders.getCookies()
+                .get(FYBConstants.USER_ID)
+                .getValue());
+        List<EventWithAction> events = EventManagerDAO.getEventWithAction(userId);
+        return Response
+                .status(Response.Status.OK)
+                .entity(events)
+                .build();
     }
 
     private Payment createPaymentObject(EventOffer offer, String messageGroup) {

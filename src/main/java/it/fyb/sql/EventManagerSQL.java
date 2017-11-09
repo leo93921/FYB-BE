@@ -25,4 +25,11 @@ public class EventManagerSQL {
     public static final String OFFER_FROM_EVENT_ID = "select * from evento where id=?";
 
     public static final String OFFER_AS_REFUNDED = "update evento set refunded=true, paid=false where id=?";
+
+    public static final String EVENT_FOR_USER_ID = "SELECT e.nome as event_name, e.`data` as event_date, " +
+            "gruppo_messaggi, prezzo_concordato, is_accettata, paid, refunded, IF(u1.id=?,u2.Nome,u1.Nome) " +
+            "as other_name, e.descrizione, u1.indirizzo_formattato, f.id as feedback_id, e.id as event_id, " +
+            "IF(u1.id=?,u2.id,u1.id) as other_user_id FROM evento e JOIN utente u1 on u1.id=organizzatore_id " +
+            "JOIN utente u2 on u2.id=gruppo_partecipante_id LEFT JOIN feedback f on f.event_id=e.id and " +
+            "f.inviato_da_id=? WHERE organizzatore_id=? OR gruppo_partecipante_id=?;";
 }
