@@ -1,5 +1,6 @@
 package it.fyb.rs.interfaces;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import it.fyb.model.EventOffer;
 import it.fyb.model.Media;
 import it.fyb.model.PaymentInfo;
@@ -23,8 +24,8 @@ public interface IEventManager {
     Response acceptOffer(@PathParam("groupId") String groupId, @Context HttpHeaders httpHeaders)
             throws Exception;
 
-    @GET @Path("approve/{groupId}") @Produces(MediaType.APPLICATION_JSON)
-    Response approveOffer(@PathParam("groupId") String groupId) throws Exception;
+    @GET @Path("approve/{groupId}/{fromAction}") @Produces(MediaType.APPLICATION_JSON)
+    Response approveOffer(@PathParam("groupId") String groupId, @PathParam("fromAction") Boolean fromAction) throws Exception;
 
     @POST @Path("pay/{groupId}") @Produces(MediaType.APPLICATION_JSON)
     Response payOffer(@PathParam("groupId") String groupId, PaymentInfo paymentInfo) throws Exception;

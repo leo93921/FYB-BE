@@ -44,7 +44,7 @@ public class EventManager implements IEventManager {
     }
 
     @Override
-    public Response approveOffer(String groupId) throws Exception {
+    public Response approveOffer(String groupId, Boolean fromActions) throws Exception {
         EventOffer offer = EventManagerDAO.getOffer(groupId);
         // TODO Handle exceptions in html!
         if (!offer.isAccepted()){
@@ -54,7 +54,7 @@ public class EventManager implements IEventManager {
             throw new Exception("L'offerta è già stata accettata");
         }
 
-        Payment p = this.createPaymentObject(offer, groupId);
+        Payment p = this.createPaymentObject(offer, groupId, fromActions);
 
         PayPalManager paypalManager = new PayPalManager();
         // Response object from PayPal
@@ -145,7 +145,7 @@ public class EventManager implements IEventManager {
                 .build();
     }
 
-    private Payment createPaymentObject(EventOffer offer, String messageGroup) {
+    private Payment createPaymentObject(EventOffer offer, String messageGroup, Boolean fromAction) {
         String payDescription = "Evento: "+ offer.getName()+"; ID: " + messageGroup;
 
         Payment p = new Payment();
@@ -159,8 +159,13 @@ public class EventManager implements IEventManager {
 
         // Redirect url
         RedirectUrls urls = new RedirectUrls();
-        urls.setCancel_url(FYBConstants.BASE_URL + "/messages/"+messageGroup);
-        urls.setReturn_url(FYBConstants.BASE_URL + "/elaborate/"+messageGroup);
+        if (fromAction) {
+            urls.setCancel_url(FYBConstants.BASE_URL + "/actions");
+
+        }else {
+            urls.setCancel_url(FYBConstants.BASE_URL + "/messages/"+messageGroup);
+        }
+        urls.setReturn_url(FYBConstants.BASE_URL + "/elaborate/"+messageGroup+"?fromAction="+fromAction);
         p.setRedirect_urls(urls);
 
         //Transaction
