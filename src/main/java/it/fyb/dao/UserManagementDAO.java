@@ -66,6 +66,7 @@ public class UserManagementDAO {
             rs = ps.executeQuery();
             if (rs.next()){
                 userData = new UserGenericData();
+                userData.setId(rs.getString("u_id"));
                 userData.setPrice(rs.getString("tariffa_id"));
                 userData.setName(rs.getString("Nome"));
                 userData.setDescription(rs.getString("Descrizione"));
