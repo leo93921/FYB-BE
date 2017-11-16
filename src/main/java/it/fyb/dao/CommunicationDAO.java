@@ -25,10 +25,14 @@ public class CommunicationDAO {
             ps.setInt(1, communication.getSentTo().intValue());
             ps.setInt(2, communication.getSentFrom().intValue());
             ps.setString(3, communication.getText().replace("\\n", "<br>"));
-            ps.setString(4, communication.getGroup());
+            if (communication.getGroup() == null) {
+                ps.setString(4, groupIndex);
+            } else {
+                ps.setString(4, communication.getGroup());
+            }
             ps.executeUpdate();
             ps.close();
-            return groupIndex;
+            return communication.getGroup() == null ? groupIndex: communication.getGroup();
         } finally {
             Utils.close(conn);
         }
