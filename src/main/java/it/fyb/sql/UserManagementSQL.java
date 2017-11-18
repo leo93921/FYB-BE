@@ -17,7 +17,7 @@ public class UserManagementSQL {
             "        `password`)" +
             "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
-    public static final String GET_USER_GENERIC_DATA = "SELECT utente.id as u_id, tariffa_id, Nome, Descrizione, Telefono, Paypal, indirizzo, " +
+    public static final String GET_USER_GENERIC_DATA = "SELECT utente.id as u_id, Tipo, tariffa_id, Nome, Descrizione, Telefono, Paypal, indirizzo, " +
             "citta, cap, latitudine, longitudine, email, youtube_link, indirizzo_formattato, COUNT(f.id) as feedback_count, " +
             "(SUM(voto)/COUNT(f.id)) as feedback_value FROM `utente` LEFT JOIN feedback f " +
             "on f.inviato_a_id= utente.id WHERE utente.id = ?";

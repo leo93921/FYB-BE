@@ -6,6 +6,7 @@ import it.fyb.Utlis.Utils;
 import it.fyb.auth.AuthHelper;
 import it.fyb.auth.AuthManager;
 import it.fyb.auth.AuthToken;
+import it.fyb.dao.FeedbackDAO;
 import it.fyb.dao.MediaManagementDAO;
 import it.fyb.dao.UserManagementDAO;
 import it.fyb.model.*;
@@ -74,7 +75,9 @@ public class UserManagement implements IUserManagement {
     public Response getUserProfile(String userId) throws Exception {
         UserGenericData user = UserManagementDAO.getUserGenericData(BigInteger.valueOf(Long.valueOf(userId)));
         UserProfile profile = new UserProfile();
+        profile.setAddress(user.getFormattedAddress());
         profile.setDescription(user.getDescription());
+        profile.setType(user.getType());
         profile.setEmail(user.getEmail());
         profile.setId(userId);
         profile.setName(user.getName());
@@ -83,6 +86,11 @@ public class UserManagement implements IUserManagement {
         profile.setYoutube(user.getYoutube());
         profile.setFeedbackCount(user.getFeedbackCount());
         profile.setFeedbackValue(user.getFeedbackValue());
+        profile.setFeedbackContainer(FeedbackDAO.getFeedback(userId));
+        for (FeedbackCount c : profile.getFeedbackContainer().getCounts()) {
+            c.setPercentage(Float.valueOf(c.getCount()) / user.getFeedbackCount() * 10);
+        }
+
         List<Media> images = MediaManagementDAO.getMedia(Integer.valueOf(userId), Types.IMAGE_FILES);
         profile.setImages(images);
         List<Media> music = MediaManagementDAO.getMedia(Integer.valueOf(userId), Types.AUDIO_FILES);

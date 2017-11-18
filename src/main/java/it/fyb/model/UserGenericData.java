@@ -4,6 +4,7 @@ public class UserGenericData {
     private String id;
     private String name;
     private String description;
+    private Integer type;
     private String phone;
     private String email;
     private String paypal;
@@ -40,6 +41,14 @@ public class UserGenericData {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public String getPhone() {

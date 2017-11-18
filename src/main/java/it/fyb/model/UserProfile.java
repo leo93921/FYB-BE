@@ -7,12 +7,15 @@ public class UserProfile {
     private String id;
     private String name;
     private String description;
+    private Integer type;
     private String phone;
     private String email;
     private String priceBand;
     private String youtube;
     private Integer feedbackCount;
     private float feedbackValue;
+    private FeedbackContainer feedbackContainer;
+    private String address;
     private List<Media> music;
     private List<Media> images;
 
@@ -38,6 +41,14 @@ public class UserProfile {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public String getPhone() {
@@ -86,6 +97,22 @@ public class UserProfile {
 
     public void setFeedbackValue(float feedbackValue) {
         this.feedbackValue = feedbackValue;
+    }
+
+    public FeedbackContainer getFeedbackContainer() {
+        return feedbackContainer;
+    }
+
+    public void setFeedbackContainer(FeedbackContainer feedbackContainer) {
+        this.feedbackContainer = feedbackContainer;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public List<Media> getMusic() {
