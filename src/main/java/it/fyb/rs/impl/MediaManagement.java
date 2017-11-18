@@ -14,6 +14,8 @@ import java.util.List;
 
 public class MediaManagement implements IMediaManagement {
 
+    public static final String UPLOAD_BASE = "C:\\Users\\leona\\Desktop\\FYB\\src\\assets\\upload\\";
+
     @Override
     public List<Media> getMediaFiles(Integer userId, String type) throws Exception {
         if (!type.equals(Types.AUDIO_FILES) && !type.equals(Types.IMAGE_FILES)){

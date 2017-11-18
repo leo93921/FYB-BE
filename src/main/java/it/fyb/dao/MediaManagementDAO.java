@@ -3,6 +3,7 @@ package it.fyb.dao;
 import it.fyb.Utlis.Utils;
 import it.fyb.model.Media;
 import it.fyb.model.UploadedMedia;
+import it.fyb.rs.impl.MediaManagement;
 import it.fyb.sql.MediaManagementSQL;
 
 import java.sql.Connection;
@@ -22,7 +23,7 @@ public class MediaManagementDAO {
                     Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, media.getUserId());
             ps.setString(2, media.getName());
-            ps.setString(3, media.getUrl());
+            ps.setString(3, media.getUrl().replace(MediaManagement.UPLOAD_BASE, ""));
             ps.setString(4, media.getMimeType());
             ps.setLong(5, media.getSize());
             ps.executeUpdate();
